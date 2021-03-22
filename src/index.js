@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import MapGL, {
   Marker,
-  Popup
+  Popup,
+  GeolocateControl
 } from "react-map-gl";
 
 import Lokation from "./lokation-position";
@@ -13,7 +14,11 @@ import PLACERINGER from "./placering.json";
 const TOKEN =
   "pk.eyJ1IjoibWFya3VzLWpzIiwiYSI6ImNrbWs0ZXR5ZzB4bGEydm5hbXdoN2RodmEifQ.5mEM5omxU7izIaFBIHpOlQ";
 
-  
+  // Styling af locations knap
+  const geolocateControlStyle= {
+    right: 10,
+    top: 10
+  };
 
 
 class App extends Component {
@@ -42,6 +47,7 @@ class App extends Component {
     };
   }
 
+  
   _updateViewport = (viewport) => {
     this.setState({ viewport });
   };
@@ -58,6 +64,7 @@ class App extends Component {
       </Marker>
     );
   };
+
 
   _renderPopup() {
     const { popupInfo } = this.state;
@@ -92,7 +99,13 @@ class App extends Component {
         {PLACERINGER.map(this._renderCityMarker)}
 
         {this._renderPopup()}
-
+      
+        <GeolocateControl
+        style={geolocateControlStyle}
+        positionOptions={{enableHighAccuracy: true}}
+        trackUserLocation={true}
+        auto
+      />
         
       </MapGL>
     );
